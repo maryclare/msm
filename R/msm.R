@@ -2370,7 +2370,7 @@ lik.msm <- function(params, ...)
   w <- args$msmdata$subject.weights
   if (!is.null(w)){
     lik <- Ccall.msm(params, do.what="lik.subj", ...)
-    wlik <- ifelse(w == 0, 0, w*lik)
+    wlik <- ifelse(w < 10^(-6) 0, 0, w*lik)
     sum(wlik)
   }
   else 
@@ -2382,7 +2382,7 @@ grad.msm <- function(params, ...)
   w <- list(...)$msmdata$subject.weights
   if (!is.null(w)){
     deriv <- Ccall.msm(params, do.what="deriv.subj", ...) # npts x npar
-    wderiv <- apply(deriv, 2, function(d) {ifelse(w == 0, 0, w*d)})
+    wderiv <- apply(deriv, 2, function(d) {ifelse(w < 10^(-6), 0, w*d)})
     apply(wderiv, 2, sum)
   }
   else 
