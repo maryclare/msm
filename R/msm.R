@@ -2370,7 +2370,8 @@ lik.msm <- function(params, ...)
   w <- args$msmdata$subject.weights
   if (!is.null(w)){
     lik <- Ccall.msm(params, do.what="lik.subj", ...)
-    sum(w * lik)
+    wlik <- ifelse(is.infinite(lik), Inf, w*lik)
+    sum(wlik)
   }
   else 
     Ccall.msm(params, do.what="lik", ...)
